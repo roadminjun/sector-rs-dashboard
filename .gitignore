@@ -4,7 +4,8 @@
 __pycache__/
 .pytest_cache/
 *.py[cod]
-.streamlit/
+.streamlit/*
+!.streamlit/config.toml
 data/*.tmp
 data/yfinance_cache/
 

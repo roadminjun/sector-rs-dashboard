@@ -1,0 +1,4 @@
+[server]
+# Cloud containers have limited inotify instances; production needs no watcher.
+fileWatcherType = "none"
+runOnSave = false
