@@ -1,0 +1,50 @@
+benchmark:
+  ticker: QQQ
+  name: Nasdaq-100
+
+# 티커를 추가/삭제하거나 표시 이름을 바꾸려면 이 목록만 수정하세요.
+etfs:
+  SMH: 반도체
+  IGV: 소프트웨어
+  CIBR: 사이버보안
+  SKYY: 클라우드
+  XLC: 커뮤니케이션 서비스
+  XLY: 경기소비재
+  XLF: 금융
+  XLI: 산업재
+  XLV: 헬스케어
+  XLE: 에너지
+  IWM: 중소형주
+
+indicators:
+  return_periods: [5, 20, 60]
+  moving_average_periods: [20, 50, 200]
+  rs_high_periods: [20, 60]
+  rs_moving_average_period: 20
+  volume_average_period: 20
+  rsi_period: 14
+  volatility_period: 20
+  volatility_annualization_days: 252
+
+data:
+  provider: yfinance
+  cache_path: data/yfinance_cache
+  lookback_calendar_days: 600
+  min_required_rows: 201
+  retry_count: 3
+  retry_delay_seconds: 1.0
+  stale_after_calendar_days: 5
+  exclude_incomplete_us_session: true
+  market_close_grace_minutes: 15
+
+# 1SIGMA는 주 분석값이나 신호를 바꾸지 않는 선택적 보조 정보입니다.
+# CLOSED 상태이며 yfinance 분석일과 기준일이 정확히 같을 때만 병합합니다.
+sigma:
+  enabled: true
+  endpoint: https://sigma-dashboard-five.vercel.app/api/snapshot
+  timeout_seconds: 20
+  retry_count: 3
+  retry_delay_seconds: 2
+
+storage:
+  results_path: data/daily_sector_signals.csv

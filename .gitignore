@@ -1,0 +1,15 @@
+.venv/
+.uv-cache/
+.uv-python/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+.streamlit/
+data/*.tmp
+data/yfinance_cache/
+
+.env
+.env.local
+
+.env
+.env.local

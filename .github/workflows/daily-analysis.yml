@@ -1,0 +1,50 @@
+name: Daily sector relative-strength analysis
+
+on:
+  # 23:30 UTC Monday-Friday = 08:30 KST Tuesday-Saturday.
+  # This is after the US regular close in both daylight-saving and standard time.
+  schedule:
+    - cron: "30 23 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-sector-relative-strength
+  cancel-in-progress: false
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Download, analyze, and update CSV
+        run: python run_analysis.py
+
+      - name: Commit updated history when it changed
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/daily_sector_signals.csv
+          if git diff --cached --quiet; then
+            echo "No CSV change to commit."
+          else
+            git commit -m "data: update sector signals"
+            git push
+          fi
